@@ -7,16 +7,16 @@ public class Transaction {
     private String concept;
     private float amount;
     private Employee user;
-    private Enterprice enterprice;
+    private Enterprise enterprise;
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    public Transaction(long id, String concept, float amount, Employee user, Enterprice enterprice, LocalDate createdAt, LocalDate updatedAt) {
+    public Transaction(long id, String concept, float amount, Employee user, Enterprise enterprise, LocalDate createdAt, LocalDate updatedAt) {
         this.id = id;
         this.concept = concept;
         this.amount = amount;
         this.user = user;
-        this.enterprice = enterprice;
+        this.enterprise = enterprise;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -53,12 +53,12 @@ public class Transaction {
         this.user = user;
     }
 
-    public Enterprice getEnterprice() {
-        return enterprice;
+    public Enterprise getEnterprise() {
+        return enterprise;
     }
 
-    public void setEnterprice(Enterprice enterprice) {
-        this.enterprice = enterprice;
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
     }
 
     public LocalDate getCreatedAt() {
@@ -75,5 +75,15 @@ public class Transaction {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String printTransaction(){
+        return "\n---------------- TRANSACTION ----------------" +
+                "\n ID: " + id +
+                "\n CONCEPT: " + concept +
+                "\n AMOUNT: " + amount + "$" +
+                "\n USER ID: " + user.getId() + " NAME: " + user.getName() +
+                "\n ENTERPRISE ID" + enterprise.getId() + " NAME: " + enterprise.getName() +
+                "\n-------------- END TRANSACTION --------------";
     }
 }
