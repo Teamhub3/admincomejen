@@ -1,21 +1,30 @@
-package com.teamhub.admincomejen;
+package com.teamhub.admincomejen.entities;
 
 
+import com.sun.xml.bind.v2.runtime.Name;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "employee_id", nullable = false, updatable = false, insertable = false)
     private long id;
-    private String name;
-    private String email;
-    private Profile profile;
-    private Enum_RoleName role;
-    private Enterprise enterprise;
-    private List<Transaction> transactions;
-    private LocalDate updateAt;
-    private LocalDate createdAt;
+    @Column(name = "employee_name") private String name;
+    @Column(name = "employee_email") private String email;
+    @OneToOne
+    @JoinColumn(name = "profile_id") private Profile profile;
+    @Column(name = "employee_role") private Enum_RoleName role;
+    @ManyToOne
+    @JoinColumn(name = "enterprise_id") private Enterprise enterprise;
+    @OneToMany(mappedBy = "employee") private List<Transaction> transactions;
+    @Column(name = "updateAt") private LocalDate updateAt;
+    @Column(name = "createAt") private LocalDate createdAt;
 
     public Employee(long id, String name, String email, Profile profile, Enum_RoleName role, Enterprise enterprise, LocalDate updateAt, LocalDate createdAt) {
         this.id = id;
@@ -27,6 +36,10 @@ public class Employee {
         this.transactions = new ArrayList<Transaction>();
         this.updateAt = updateAt;
         this.createdAt = createdAt;
+    }
+
+    public Employee() {
+
     }
 
     public long getId() {

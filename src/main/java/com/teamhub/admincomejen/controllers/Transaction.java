@@ -1,4 +1,4 @@
-package com.teamhub.admincomejen;
+package com.teamhub.admincomejen.controllers;
 
 import java.time.LocalDate;
 
