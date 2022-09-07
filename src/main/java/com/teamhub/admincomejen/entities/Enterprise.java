@@ -1,21 +1,25 @@
-package com.teamhub.admincomejen;
+package com.teamhub.admincomejen.entities;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Entity
+@Table(name="enterprise")
 public class Enterprise {
 
-    private Long id;
-    private String name;
-    private String document;
-    private String phone;
-    private String address;
-    private List<Employee> users;
-    private List<Transaction> transactions;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "enterprise_id", nullable = false, updatable = false, insertable = false) private Long id;
+    @Column(name = "enterprise_name") private String name;
+    @Column(name = "enterprise_document") private String document;
+    @Column(name = "enterprise_phone")private String phone;
+    @Column(name = "enterprise_address") private String address;
+    @OneToMany(mappedBy = "enterprise") private List<Employee> employees;
+    @OneToMany(mappedBy = "enterprise") private List<Transaction> transactions;
+    @Column(name = "enterprise_createAt") private LocalDate createdAt;
+    @Column(name = "enterrpise_updateAt") private LocalDate updatedAt;
 
     public Enterprise(Long id, String name, String document, String phone, String address, LocalDate createdAt, LocalDate updatedAt) {
         this.id = id;
@@ -23,10 +27,14 @@ public class Enterprise {
         this.document = document;
         this.phone = phone;
         this.address = address;
-        this.users = new ArrayList<Employee>();
+        this.employees = new ArrayList<Employee>();
         this.transactions = new ArrayList<Transaction>();
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Enterprise() {
+
     }
 
     public Long getId() {
@@ -84,10 +92,10 @@ public class Enterprise {
     public void setUpdatedAt(LocalDate updatedAt) {this.updatedAt = updatedAt;}
 
     public void addEmployee(Employee employee){
-        this.users.add(employee);
+        this.employees.add(employee);
     }
-    public void removeEmploye(long idEmployee){
-        this.users = users.stream().filter(employee -> {
+    public void removeEmployee(long idEmployee){
+        this.employees = employees.stream().filter(employee -> {
             return !(employee.getId() == idEmployee);
         }).collect(Collectors.toList());
     }
