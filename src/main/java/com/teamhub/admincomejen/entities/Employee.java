@@ -1,7 +1,7 @@
 package com.teamhub.admincomejen.entities;
 
 
-import com.sun.xml.bind.v2.runtime.Name;
+import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,9 +17,9 @@ public class Employee {
     private long id;
     @Column(name = "employee_name") private String name;
     @Column(name = "employee_email") private String email;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL )
     @JoinColumn(name = "profile_id") private Profile profile;
-    @Column(name = "employee_role") private Enum_RoleName role;
+    @Column(name = "enterprise_role") private Enum_RoleName role;
     @ManyToOne
     @JoinColumn(name = "enterprise_id") private Enterprise enterprise;
     @OneToMany(mappedBy = "employee") private List<Transaction> transactions;
@@ -109,7 +109,7 @@ public class Employee {
     }
      public void removeTransaction(long idTransaction){
         this.transactions = transactions.stream().filter(transaction -> {
-            return !(transaction.getId() == idTransaction);
+            return !(transaction.getTransaction_id() == idTransaction);
         }).collect(Collectors.toList());
      }
 

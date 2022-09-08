@@ -7,14 +7,16 @@ import javax.persistence.*;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "profile_id", nullable = false) private Long profile_id;
 
-    public Long getId() {
-        return id;
+    @OneToOne
+    @JoinColumn(name = "employee_id") private Employee employee;
+
+    public Long getProfile_id() {
+        return profile_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProfile_id(Long id) {
+        this.profile_id = id;
     }
 }

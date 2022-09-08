@@ -105,7 +105,7 @@ public class Enterprise {
     }
     public void removeTransaction(long idTransaction){
         this.transactions = transactions.stream().filter(transaction -> {
-            return !(transaction.getId() == idTransaction);
+            return !(transaction.getTransaction_id() == idTransaction);
         }).collect(Collectors.toList());
     }
 

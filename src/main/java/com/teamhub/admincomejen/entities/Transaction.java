@@ -7,7 +7,8 @@ import java.time.LocalDate;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "transaction_id", nullable = false, updatable = false, insertable = false) private long id;
+    @Column(name = "transaction_id", nullable = false, updatable = false, insertable = false)
+    private Long id;
     @Column(name = "transaction_concept") private String concept;
     @Column(name = "transaction_amount") private float amount;
     @ManyToOne
@@ -17,8 +18,8 @@ public class Transaction {
     @Column(name = "transaction_createAt") private LocalDate createdAt;
     @Column(name = "transaction_updateAt") private LocalDate updatedAt;
 
-    public Transaction(long id, String concept, float amount, Employee employee, Enterprise enterprise, LocalDate createdAt, LocalDate updatedAt) {
-        this.id = id;
+    public Transaction(long transaction_id, String concept, float amount, Employee employee, Enterprise enterprise, LocalDate createdAt, LocalDate updatedAt) {
+        this.id = transaction_id;
         this.concept = concept;
         this.amount = amount;
         this.employee = employee;
@@ -31,11 +32,11 @@ public class Transaction {
 
     }
 
-    public long getId() {
+    public long getTransaction_id() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setTransaction_id(long id) {
         this.id = id;
     }
 
