@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Entity
 @Table(name="enterprise")
@@ -117,6 +118,18 @@ public class Enterprise {
                 "\n PHONE: " + phone +
                 "\n ADDRESS: " + address +
                 "\n-------------- END ENTERPRISE --------------";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Enterprise that = (Enterprise) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(document, that.document) && Objects.equals(phone, that.phone) && Objects.equals(address, that.address) && Objects.equals(employees, that.employees) && Objects.equals(transactions, that.transactions) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, document, phone, address, employees, transactions, createdAt, updatedAt);
     }
 
 }
