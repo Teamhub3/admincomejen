@@ -1,8 +1,6 @@
 package com.teamhub.admincomejen.entities;
 
 
-import org.hibernate.engine.internal.Cascade;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
