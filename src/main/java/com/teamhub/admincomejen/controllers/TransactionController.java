@@ -1,43 +1,68 @@
 package com.teamhub.admincomejen.controllers;
 
 import com.teamhub.admincomejen.entities.Transaction;
+import com.teamhub.admincomejen.entities.TransactionResponse;
 import com.teamhub.admincomejen.services.TransactionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@RestController
+@Controller
 public class TransactionController {
-    TransactionService service;
+    private TransactionService transactionService;
 
-    public TransactionController(TransactionService service) {
-        this.service=service;
+    public TransactionController(TransactionService transactionService){
+        this.transactionService = transactionService;
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<Transaction>> getTransactions(){
+        return new ResponseEntity<List<Transaction>>(
+                this.transactionService.getTransactions(),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/enterprises/{id}/transactions")
-    public List<Transaction> getTransactionByEnt(@PathVariable Long id){
-        return this.service.getTransactionByEnt(id);
-    }
-
-    @GetMapping("/enterprises/{id}/transactions/{id_transactions}")
-    public Optional<Transaction> getTransaction(@PathVariable("id_transactions") Long id){
-        return service.getTransactionOne(id);
+    public ResponseEntity<List<Transaction>> getTransactionByEnterprise(@PathVariable Long id){
+        return new ResponseEntity<List<Transaction>>(
+                this.transactionService.getTransactionByEnterpriseId(id),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/enterprises/{id}/transactions")
-    public void postTransaction(@RequestBody Transaction transaction){
-        this.service.insertTransaction(transaction);
+    public ResponseEntity<TransactionResponse> postTransaction(@RequestBody Transaction transaction){
+        return new ResponseEntity<>(
+                new TransactionResponse("Transaccion creada exitosamente", this.transactionService.postTransaction(transaction)),
+                HttpStatus.OK
+        );
     }
 
-    @PutMapping("/enterprises/{id}/transactions")
-    public void putTransaction(@RequestBody Transaction transaction){
-        this.service.updateTransaction(transaction);
+    @PatchMapping("/enterprises/{id}/transactions/{id_transaction}")
+    public ResponseEntity<TransactionResponse> patchTransaction(@RequestBody Transaction transaction, @PathVariable("id_transaction") Long id){
+        try {
+            return new ResponseEntity<>(
+                    new TransactionResponse("Transaccion actualizada exitosamente", this.transactionService.patchTransaction(transaction,id)),
+                    HttpStatus.OK
+            );
+
+        }catch (Exception e){
+            return new ResponseEntity<>(
+                    new TransactionResponse(e.getMessage(), null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
-    @DeleteMapping(value = "/enterprises/{id}/transactions/{id_transactions}")
-    public String deleteTransaction(@PathVariable("id_transactions") Long id){
-        return this.service.deleteTransaction(id);
+    @DeleteMapping("/enterprises/{id}/transactions/{id_transaction}")
+    public ResponseEntity<TransactionResponse> deleteTransaction(@PathVariable("id_transaction") Long id){
+        return new ResponseEntity<>(
+                new TransactionResponse(this.transactionService.deleteEnterprise(id),null),
+                HttpStatus.OK
+        );
     }
-
 }

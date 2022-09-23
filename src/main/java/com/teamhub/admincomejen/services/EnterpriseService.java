@@ -4,39 +4,69 @@ import com.teamhub.admincomejen.entities.Enterprise;
 import com.teamhub.admincomejen.repositories.EnterpriseRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EnterpriseService {
 
-    private EnterpriseRepository repository;
-    public EnterpriseService(EnterpriseRepository repository){
+    private EnterpriseRepository enterpriseRepository;
 
-        this.repository = repository;
+    public EnterpriseService(EnterpriseRepository enterpriseRepository){
+        this.enterpriseRepository = enterpriseRepository;
+    }
+    public List<Enterprise> getEnterprises(){
+        return this.enterpriseRepository.findAll();
     }
 
-    public List<Enterprise> getEnterpriseAll(){
-        return this.repository.findAll();
+    public Enterprise getEnterprise(Long id) throws Exception{
+        Optional<Enterprise> optionalEnterprise = enterpriseRepository.findById(id);
+        if (optionalEnterprise.isPresent()){
+            return optionalEnterprise.get();
+        }else {
+            throw new Exception("La empresa no exite");
+        }
     }
 
-    public Enterprise getEnterpriseOne(Long id){
-        return this.repository.findById(id).orElseThrow(()->new EnterpriseNotFoundException(id));
+    public Enterprise postEnterprise(Enterprise enterprise){
+        return this.enterpriseRepository.save(enterprise);
     }
 
-    public void insertEnterprise(Enterprise enterprise){
-        this.repository.save(enterprise);
+    public Enterprise putEnterprise(Enterprise enterprise){
+        return enterpriseRepository.save(enterprise);
     }
-    public void updateEnterprise(Enterprise enterprise){
-        this.repository.save(enterprise);
+
+    public Enterprise patchEnterprise(Enterprise enterprise_param, Long id) throws Exception{
+        try {
+            Enterprise enterpriseDB = getEnterprise(id);
+
+            if (enterprise_param.getAddress() != null){
+                enterpriseDB.setAddress(enterprise_param.getAddress());
+            }
+            if ((enterprise_param.getDocument() != null)){
+                enterpriseDB.setDocument(enterprise_param.getDocument());
+            }
+            if (enterprise_param.getName() != null){
+                enterpriseDB.setName(enterprise_param.getName());
+            }
+            if (enterprise_param.getPhone() != null){
+                enterpriseDB.setPhone(enterprise_param.getPhone());
+            }
+            enterpriseDB.setUpdatedAt(LocalDate.now());
+            return  postEnterprise(enterpriseDB);
+        }catch (Exception e){
+            throw new Exception("La empresa no se actulizo");
+        }
     }
 
     public String deleteEnterprise(Long id){
         try {
-            this.repository.deleteById(id);
-
-        }catch (Exception exception){
-               return "The enterprise with id = "+ id +" could not be eliminated.";
+            this.enterpriseRepository.deleteById(id);
+            return "Empresa eliminada exitosamente!";
+        }catch (Exception e){
+            return "La empresa con id = " + id + " no se pudo eliminar o no existe en la base de datos!";
         }
-        return null;
     }
 
 }

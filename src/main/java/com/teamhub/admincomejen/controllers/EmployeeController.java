@@ -1,44 +1,75 @@
 package com.teamhub.admincomejen.controllers;
 
 import com.teamhub.admincomejen.entities.Employee;
+import com.teamhub.admincomejen.entities.EmployeeResponse;
+import com.teamhub.admincomejen.entities.Enterprise;
+import com.teamhub.admincomejen.entities.EnterpriseResponse;
 import com.teamhub.admincomejen.services.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class EmployeeController {
-    EmployeeService service;
+    private EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService service){
-
-        this.service  = service;
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployeeAll(){
-        return service.getEmployeeAll();
+    public ResponseEntity<List<Employee>> getEmployees(){
+        return new ResponseEntity<List<Employee>>(this.employeeService.getEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployeeOne(@PathVariable Long id){
-        return service.getEmployeeOne(id);
+    public ResponseEntity<Object> getEmployee(@PathVariable Long id){
+        try {
+            Employee employee = employeeService.getEmployee(id);
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/employees")
-    public void postEmployee(@RequestBody Employee employee){
-        this.service.insertEmployee(employee);
+    public ResponseEntity<EmployeeResponse> postEmployee(@RequestBody Employee employee){
+        return new ResponseEntity<>(
+                new EmployeeResponse("Empresa creada exitosamente", employeeService.postEmployee(employee)),
+                HttpStatus.OK);
     }
 
     @PutMapping("/employees")
-    public void putEmployee(@RequestBody Employee employee){
-        this.service.updateEmployee(employee);
+    public ResponseEntity<EmployeeResponse> putEmployee(@RequestBody Employee employee){
+        return new ResponseEntity<>(
+                new EmployeeResponse("Empresa actualizada exitosamente", employeeService.putEmployee(employee)),
+                HttpStatus.OK
+        );
     }
 
-    @DeleteMapping(value = "/employees/{id}")
-    public String deleteEmployee(@PathVariable("id") Long id){
-        return this.service.deleteEmployee(id);
+    @PatchMapping("/employees/{id}")
+    public ResponseEntity<EmployeeResponse> patchEmployee(@RequestBody Employee employee, @PathVariable Long id){
+        try {
+            return new ResponseEntity<>(
+                    new EmployeeResponse("Actulizacion exitosa", employeeService.patchEmployee(employee, id)),
+                    HttpStatus.OK
+            );
+
+        }catch (Exception e) {
+            return new ResponseEntity<>(
+                    new EmployeeResponse(e.getMessage(), null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
-
-
+    @DeleteMapping("employees/{id}")
+    public ResponseEntity<EmployeeResponse> deleteEnterprise(@PathVariable Long id){
+        return new ResponseEntity<>(
+                new EmployeeResponse(employeeService.deleteEmployee(id),null ),
+                HttpStatus.OK
+        );
+    }
 }

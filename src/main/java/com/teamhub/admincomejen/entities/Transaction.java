@@ -7,16 +7,21 @@ import java.time.LocalDate;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "transaction_id", nullable = false, updatable = false, insertable = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
-    @Column(name = "transaction_concept") private String concept;
-    @Column(name = "transaction_amount") private float amount;
+    @Column
+    private String concept;
+    @Column
+    private float amount;
     @ManyToOne
-    @JoinColumn(name = "employee_id") private Employee employee;
+
+    private Employee employee;
     @ManyToOne
-    @JoinColumn(name = "enterprise_id") private Enterprise enterprise;
-    @Column(name = "transaction_createAt") private LocalDate createdAt;
-    @Column(name = "transaction_updateAt") private LocalDate updatedAt;
+    private Enterprise enterprise;
+    @Column
+    private LocalDate createdAt;
+    @Column
+    private LocalDate updatedAt;
 
     public Transaction(long transaction_id, String concept, float amount, Employee employee, Enterprise enterprise, LocalDate createdAt, LocalDate updatedAt) {
         this.id = transaction_id;
@@ -30,14 +35,6 @@ public class Transaction {
 
     public Transaction() {
 
-    }
-
-    public long getTransaction_id() {
-        return id;
-    }
-
-    public void setTransaction_id(long id) {
-        this.id = id;
     }
 
     public String getConcept() {
@@ -88,13 +85,11 @@ public class Transaction {
         this.updatedAt = updatedAt;
     }
 
-    public String printTransaction(){
-        return "\n---------------- TRANSACTION ----------------" +
-                "\n ID: " + id +
-                "\n CONCEPT: " + concept +
-                "\n AMOUNT: " + amount + "$" +
-                "\n USER ID: " + employee.getId() + " NAME: " + employee.getName() +
-                "\n ENTERPRISE ID" + enterprise.getId() + " NAME: " + enterprise.getName() +
-                "\n-------------- END TRANSACTION --------------";
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
