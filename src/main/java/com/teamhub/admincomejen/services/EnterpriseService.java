@@ -28,6 +28,15 @@ public class EnterpriseService {
             throw new Exception("La empresa no exite");
         }
     }
+    public Long getUltimoId(){
+        List<Enterprise> enterprises = this.enterpriseRepository.findAll();
+        if(enterprises.size()>0){
+            return enterprises.get(enterprises.size()-1).getId();
+        }else{
+            return 0L;
+        }
+
+    }
 
     public Enterprise postEnterprise(Enterprise enterprise){
         return this.enterpriseRepository.save(enterprise);

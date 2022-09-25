@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+<body>
+<main>
+    <div class="navbar navbar-expand-lg navbar-light container mt-3"  style="background-color: aqua">
+        <div class="container-fluid">
+            <div >
+                <ul class="nav justify-content-end">
+                    <li class="nav-item my-3 mx-3">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-secondary">Logout</button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+  <div class="container mt-3" sec:authorize="isAuthenticated()">
+      <div sec:authorize="hasAnyRole('ADMIN','OPERATOR')">
+          <div sec:authorize="hasAnyRole('ADMIN')" class="text-left">
+              <form th:action="@{/enterprise/front/add/enterprise}" method="get">
+                  <button type="submit" class="btn btn-primary" >Insert new </button>
+              </form>
+          </div>
+          <table class="table table-striped table-hover">
+              <thead>
+              <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">NAME</th>
+                  <th scope="col">DOCUMENT</th>
+                  <th scope="col">ADDRESS</th>
+                  <th scope="col">PHONE</th>
+                  <th scope="col">DATE</th>
+                  <th scope="col">DELETE</th>
+                  <th scope="col">MANAGE</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="enterprise : ${enterprises}">
+                  <td th:text="${enterprise.id}"></td>
+                  <td th:text="${enterprise.name}"></td>
+                  <td th:text="${enterprise.document}"></td>
+                  <td th:text="${enterprise.address}"></td>
+                  <td th:text="${enterprise.phone}"></td>
+                  <td th:text="${enterprise.createdAt}"></td>
+                  <td>
+                      <div sec:authorize="hasAnyRole('ADMIN')">
+                          <form th:action="@{/enterprises/front/delete/{id}(id=${enterprise.id})}" th:method="delete" >
+                              <button type="submit"class="btn btn-danger">Delete</button>
+                          </form>
+                      </div>
+                  </td>
+                  <td>
+                      <div>
+                          <form th:action="@{/enterprises/front/transactions/{id}(id=${enterprise.id})}" th:method="get" >
+                              <button type="submit"class="btn btn-primary">Manage</button>
+                          </form>
+                      </div>
+                  </td>
+              </tr>
+              </tbody>
+
+          </table>
+      </div>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>

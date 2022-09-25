@@ -34,6 +34,14 @@ public class TransactionService {
         }
 
     }
+    public Long getUltimoId(){
+        List<Transaction> transactions = this.transactionRepository.findAll();
+        if(transactions.size() > 0){
+            return transactions.get(transactions.size()-1).getId();
+        }else{
+            return 0L;
+        }
+    }
     public  Transaction postTransaction(Transaction transaction){
         return this.transactionRepository.save(transaction);
     }
