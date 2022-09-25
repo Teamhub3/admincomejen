@@ -27,6 +27,14 @@ public class EmployeeService {
             throw new Exception("El empleado no exite");
         }
     }
+    public Employee getEmployeeByEmail(String email) throws Exception{
+        Optional<Employee> optionalEmployee = Optional.ofNullable(employeeRepository.findByEmail(email));
+        if(optionalEmployee.isPresent()){
+            return optionalEmployee.get();
+        }else {
+            throw new Exception("El empleado no exite");
+        }
+    }
 
     public Employee postEmployee(Employee employee){
         return this.employeeRepository.save(employee);

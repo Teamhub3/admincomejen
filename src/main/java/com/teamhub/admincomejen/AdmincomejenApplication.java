@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-@RestController
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class AdmincomejenApplication {
 
 	public static void main(String[] args) {
