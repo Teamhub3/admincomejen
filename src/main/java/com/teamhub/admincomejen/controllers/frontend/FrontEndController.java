@@ -98,6 +98,11 @@ public class FrontEndController {
         }
 
     }
+    @GetMapping("/enterprises/front/{id}")
+    public String getManage(Model model,@PathVariable Long id) throws Exception {
+        model.addAttribute("enterprise", this.enterpriseService.getEnterprise(id));
+        return "manage-enterprise";
+    }
 
 
 

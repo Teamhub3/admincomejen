@@ -48,7 +48,7 @@
                   <td th:text="${enterprise.name}"></td>
                   <td th:text="${enterprise.document}"></td>
                   <td th:text="${enterprise.address}"></td>
-                  <td th:text="${enterprise.phone}"></td>
+                  <td th:text="${enterprise.phone}"></td><
                   <td th:text="${enterprise.createdAt}"></td>
                   <td>
                       <div sec:authorize="hasAnyRole('ADMIN')">
@@ -59,8 +59,9 @@
                   </td>
                   <td>
                       <div>
-                          <form th:action="@{/enterprises/front/transactions/{id}(id=${enterprise.id})}" th:method="get" >
-                              <button type="submit"class="btn btn-primary">Manage</button>
+                          <form th:action="@{/enterprises/front/{id}(id=${enterprise.id})}" th:method="get" >
+                          <button type="submit"class="btn btn-primary">Manage </button>
+
                           </form>
                       </div>
                   </td>

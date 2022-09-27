@@ -2,8 +2,6 @@ package com.teamhub.admincomejen.controllers;
 
 import com.teamhub.admincomejen.entities.Employee;
 import com.teamhub.admincomejen.entities.EmployeeResponse;
-import com.teamhub.admincomejen.entities.Enterprise;
-import com.teamhub.admincomejen.entities.EnterpriseResponse;
 import com.teamhub.admincomejen.services.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
