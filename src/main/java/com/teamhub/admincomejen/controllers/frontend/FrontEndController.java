@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 public class FrontEndController {
     @Autowired
     private EnterpriseService enterpriseService;
@@ -26,6 +27,11 @@ public class FrontEndController {
 
     @Autowired
     private TransactionService transactionService;
+    
+    @GetMapping("/")
+    public String getLoginInicio(Model model){
+        return "redirect:/login";
+    }
 
     @GetMapping("/login")
     public String getLogin(Model model){
