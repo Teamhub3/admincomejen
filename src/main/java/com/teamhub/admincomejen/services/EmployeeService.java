@@ -1,6 +1,7 @@
 package com.teamhub.admincomejen.services;
 
 import com.teamhub.admincomejen.entities.Employee;
+import com.teamhub.admincomejen.entities.Enterprise;
 import com.teamhub.admincomejen.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -34,6 +35,20 @@ public class EmployeeService {
         }else {
             throw new Exception("El empleado no exite");
         }
+    }
+
+    public Long getUltimoId(){
+        List<Employee> employees = this.employeeRepository.findAll();
+        if(employees.size()>0){
+            return employees.get(employees.size()-1).getId();
+        }else{
+            return 0L;
+        }
+    }
+
+
+    public List<Employee> getEmployeeByEnterpriseId(Long id){
+        return this.employeeRepository.findByEnterprise_Id(id);
     }
 
     public Employee postEmployee(Employee employee){

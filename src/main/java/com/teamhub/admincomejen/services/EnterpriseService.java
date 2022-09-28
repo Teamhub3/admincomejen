@@ -35,7 +35,6 @@ public class EnterpriseService {
         }else{
             return 0L;
         }
-
     }
 
     public Enterprise postEnterprise(Enterprise enterprise){

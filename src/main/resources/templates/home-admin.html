@@ -25,7 +25,7 @@
   <div class="container mt-3" sec:authorize="isAuthenticated()">
       <div sec:authorize="hasAnyRole('ADMIN','OPERATOR')">
           <div sec:authorize="hasAnyRole('ADMIN')" class="text-left">
-              <form th:action="@{/enterprise/front/add/enterprise}" method="get">
+              <form th:action="@{/enterprises/front/add/enterprise}" method="get">
                   <button type="submit" class="btn btn-primary" >Insert new </button>
               </form>
           </div>
@@ -59,14 +59,13 @@
                   </td>
                   <td>
                       <div>
-                          <form th:action="@{/enterprises/front/transactions/{id}(id=${enterprise.id})}" th:method="get" >
+                          <form th:action="@{/enterprises/front/enterprise/{id}(id=${enterprise.id})}" th:method="get" >
                               <button type="submit"class="btn btn-primary">Manage</button>
                           </form>
                       </div>
                   </td>
               </tr>
               </tbody>
-
           </table>
       </div>
   </div>

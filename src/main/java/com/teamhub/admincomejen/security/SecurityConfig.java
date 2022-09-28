@@ -40,9 +40,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests()
                 .antMatchers("/enterprises/front/delete/**").hasRole("ADMIN")
                 .antMatchers("/enterprises/front/transactions/**").hasAnyRole("ADMIN", "OPERATOR")
+                .antMatchers("/enterprises/front/employees/**").hasRole("ADMIN")
+                .antMatchers("/enterprises/front/add/transaction/**").hasAnyRole("ADMIN","OPERATOR")
+                .antMatchers("/enterprises/front/add/employee/**").hasRole("ADMIN")
+                .antMatchers("/enterprises/front/add/enterprise/**").hasRole("ADMIN")
+                .antMatchers("/enterprises/front/enterprise/**").hasAnyRole("ADMIN","OPERATOR")
                 .antMatchers("/home").hasAnyRole("ADMIN", "OPERATOR")
                 .antMatchers("/").permitAll()
-                .antMatchers("/login*").permitAll()
+                .antMatchers("/login/**").permitAll()
 
                 .and()
 
@@ -55,11 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login");
-
-
-
-
-
     }
 
 
