@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>ManageEnterprise</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+<main>
+    <div class="navbar navbar-expand-lg navbar-light container mt-3"  style="background-color: aqua">
+        <div class="container-fluid">
+            <div >
+                <ul class="nav justify-content-end">
+                    <li class="nav-item my-3 mx-3">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-secondary">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <div class="container mt-3">
+            <div class="card">
+                <div class="card-body text-start">
+                    <h5 class="card-title">Enterprise: </h5>
+                    <p th:text="${enterprise.id}"></p>
+                    <p th:text="${enterprise.name}"></p>
+                    <p th:text="${enterprise.address}"></p>
+                    <p th:text="${enterprise.phone}"></p>
+                    <p th:text="${enterprise.createdAt}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-3">
+            <div class="form-floating mt-3" sec:authorize="hasAnyRole('ADMIN')">
+                <form th:action="@{/enterprises/front/employees/{id}(id=${enterprise.id})}" th:method="get" >
+                    <button type="submit"class="btn btn-primary">Manage Employees</button>
+                </form>
+            </div>
+            <div class="form-floating mt-3">
+                <form th:action="@{/enterprises/front/transactions/{id}(id=${enterprise.id})}" th:method="get" >
+                    <button type="submit"class="btn btn-primary">Manage Transactions</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
